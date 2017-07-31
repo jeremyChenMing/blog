@@ -1,11 +1,11 @@
-var path = require('path');
-var express = require('express');
-var session = require('express-session');
+var path = require('path');     //node模块
+var express = require('express');  
+var session = require('express-session');   //记录登录用户的转台，类似于cookie
 var MongoStore = require('connect-mongo')(session); //将session存储于mongod中
 var flash = require('connect-flash');             //页面通知提示的中间件
-var config = require('config-lite')(__dirname); //读取配置文件用的
-var routes = require('./routes');
-var pkg = require('./package');
+var config = require('config-lite')(__dirname); //读取配置文件的中间件
+var routes = require('./routes');  //路由文件
+var pkg = require('./package'); //配置文件
 var winston = require('winston');   //日志
 var expressWinston = require('express-winston'); //  基于 winston 的用于 express 的日志中间件
 
@@ -18,6 +18,10 @@ app.set('view engine', 'ejs');
 
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
 // session 中间件
 app.use(session({
   name: config.session.key,// 设置 cookie 中保存 session id 的字段名称
@@ -31,13 +35,33 @@ app.use(session({
     url: config.mongodb// mongodb 地址
   })
 }));
+
+
+
+
+
+
+
+
 // flash 中间件，用来显示通知
 app.use(flash());
+
+
+
+
+
 // 处理表单及文件上传的中间件
 app.use(require('express-formidable')({
   uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
   keepExtensions: true// 保留后缀
 }));
+
+
+
+
+
+
+
 
 // 设置模板全局常量
 app.locals.blog = {
@@ -47,11 +71,17 @@ app.locals.blog = {
 
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {
+  console.log('======',req.locals)
   res.locals.user = req.session.user;
-  res.locals.success = req.flash('success').toString();
+  res.locals.success = req.flash('success').toString(); //中间件通知消息的方法flash
   res.locals.error = req.flash('error').toString();
   next();
 });
+
+
+
+
+
 
 // 正常请求的日志
 app.use(expressWinston.logger({
@@ -65,8 +95,11 @@ app.use(expressWinston.logger({
     })
   ]
 }));
+
 // 路由
 routes(app);
+
+
 // 错误请求的日志
 app.use(expressWinston.errorLogger({
   transports: [
@@ -81,11 +114,13 @@ app.use(expressWinston.errorLogger({
 }));
 
 // error page
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res, next) {     //错误处理机制，控制错误输出的恶内容
   res.render('error', {
     error: err
   });
 });
+
+
 
 if (module.parent) {
   module.exports = app;

@@ -1,8 +1,7 @@
 var marked = require('marked');
 var Post = require('../lib/mongo').Post; //db的一个实例，下面有很多的方法
 
-
-var CommentModel = require('./comments');
+var CommentModel = require('./comments');  //  评论数据库的方法
 
 // 给 post 添加留言数 commentsCount
 Post.plugin('addCommentsCount', {
@@ -41,10 +40,19 @@ Post.plugin('contentToHtml', {
   }
 });
 
+
+
+// 上面两个方法Post.plugin都是给db实例增加方法
+
+
+
+
+
+
 module.exports = {
   // 创建一篇文章
   create: function create(post) {
-    return Post.create(post).exec();
+    return Post.create(post).exec();//结束，传递给下一个函数作为参数
   },
 
   // 通过文章 id 获取一篇文章
@@ -55,7 +63,7 @@ module.exports = {
       .addCreatedAt()
       .addCommentsCount()
       .contentToHtml()
-      .exec();
+      .exec();//结束，传递给下一个函数作为参数
   },
 
   // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章

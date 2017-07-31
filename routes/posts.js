@@ -9,7 +9,7 @@ var checkLogin = require('../middlewares/check').checkLogin;  //监察是否登�
 //   eg: GET /posts?author=xxx
 router.get('/', function(req, res, next) {
   var author = req.query.author;   //一上来什么也没有是空的
-
+  
   PostModel.getPosts(author)
     .then(function (posts) {
       res.render('posts', {  //渲染ejs(posts)模版
@@ -65,10 +65,10 @@ router.post('/', checkLogin, function(req, res, next) {
 router.get('/:postId', function(req, res, next) {
   var postId = req.params.postId;
   
-  Promise.all([
+  Promise.all([   //三个异步操作并行执行，等都执行完毕后在进入.then
     PostModel.getPostById(postId),// 获取文章信息
     CommentModel.getComments(postId),// 获取该文章所有留言
-    PostModel.incPv(postId)// pv 加 1
+    PostModel.incPv(postId)// pv 加 1   浏览次数
   ])
   .then(function (result) {
     var post = result[0];
