@@ -71,7 +71,6 @@ app.locals.blog = {
 
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {
-  console.log('======',req.locals)
   res.locals.user = req.session.user;
   res.locals.success = req.flash('success').toString(); //中间件通知消息的方法flash
   res.locals.error = req.flash('error').toString();
