@@ -86,7 +86,7 @@ app.use(function (req, res, next) {
 // 正常请求的日志
 app.use(expressWinston.logger({
   transports: [
-    new (winston.transports.Console)({
+    new (winston.transports.Console)({  //正常日志打入到终端上，并通过下面的方法写入文件
       json: true,
       colorize: true
     }),
@@ -97,11 +97,11 @@ app.use(expressWinston.logger({
 }));
 
 // 路由
-routes(app);
+routes(app);   //正常日志需要写到上面，错误日志需要写到下面
 
 
 // 错误请求的日志
-app.use(expressWinston.errorLogger({
+app.use(expressWinston.errorLogger({ //错误日志打入到终端上，并通过下面的方法写入文件
   transports: [
     new winston.transports.Console({
       json: true,
@@ -114,7 +114,7 @@ app.use(expressWinston.errorLogger({
 }));
 
 // error page
-app.use(function (err, req, res, next) {     //错误处理机制，控制错误输出的恶内容
+app.use(function (err, req, res, next) {     //错误处理机制，控制错误输出的恶内容  并不是处理错误的路径显示的页面，而是错误的代码
   res.render('error', {
     error: err
   });

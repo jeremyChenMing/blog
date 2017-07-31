@@ -8,7 +8,7 @@ module.exports = function (app) {
   app.use('/posts', require('./posts'));
 
   // 404 page
-  app.use(function (req, res) {
+  app.use(function (req, res) {   //输入错误的路径，显示的路径
     if (!res.headersSent) {
       res.status(404).render('404');
     }
