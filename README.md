@@ -1,44 +1,47 @@
-models: 存放操作数据库的文件
-public: 存放静态文件，如样式、图片等
-routes: 存放路由文件
-views: 存放模板文件
-index.js: 程序主文件
-package.json: 存储项目名、描述、作者、依赖等等信息
-middlewares:权限管理的文件
+
+# 文件夹的用途
+* models: 存放操作数据库的文件
+* public: 存放静态文件，如样式、图片等
+* routes: 存放路由文件
+* views: 存放模板文件
+* index.js: 程序主文件
+* package.json: 存储项目名、描述、作者、依赖等等信息
+* middlewares:权限管理的文件
 
 
 
 # 包的用途
-express: web 框架
-express-session: session 中间件
-connect-mongo: 将 session 存储于 mongodb，结合 express-session 使用
-connect-flash: 页面通知提示的中间件，基于 session 实现
-ejs: 模板
-express-formidable: 接收表单及文件的上传中间件
-config-lite: 读取配置文件
-marked: markdown 解析
-moment: 时间格式化
-mongolass: mongodb 驱动
-objectid-to-timestamp: 根据 ObjectId 生成时间戳
-sha1: sha1 加密，用于密码加密
-winston: 日志
-express-winston: 基于 winston 的用于 express 的日志中间件
-logs:存放日志的位置
+* express: web 框架
+* express-session: session 中间件
+* connect-mongo: 将 session 存储于 mongodb，结合 express-session 使用
+* connect-flash: 页面通知提示的中间件，基于 session 实现
+* ejs: 模板
+* express-formidable: 接收表单及文件的上传中间件
+* config-lite: 读取配置文件
+* marked: markdown 解析
+* moment: 时间格式化
+* mongolass: mongodb 驱动
+* objectid-to-timestamp: 根据 ObjectId 生成时间戳
+* sha1: sha1 加密，用于密码加密
+* winston: 日志
+* express-winston: 基于 winston 的用于 express 的日志中间件
+* logs:存放日志的位置
 
 
 
 
 
 #功能与设计
-接口的请求是restful的设计风格
+> 接口的请求是restful的设计风格
+
 #会话
-由于 HTTP 协议是无状态的协议，所以服务端需要记录用户的状态时，就需要用某种机制来识具体的用户，这个机制就是会话（Session）;
+> 由于 HTTP 协议是无状态的协议，所以服务端需要记录用户的状态时，就需要用某种机制来识具体的用户，这个机制就是会话（Session）;
 最终通过的express-session这个中间件来实现
-原理：
+  原理：
 session 中间件会在 req 上添加 session 对象，即 req.session 初始值为 {}，当我们登录后设置 req.session.user = 用户信息，返回浏览器的头信息中会带上 set-cookie 将 session id 写到浏览器 cookie 中，那么该用户下次请求时，通过带上来的 cookie 中的 session id 我们就可以查找到该用户，并将用户信息保存到 req.session.user。
 
 #页面的通知
-通过connect-flash中间件来实现，它是基于session实现的，它的原理很简单：设置初始值 req.session.flash={}，通过 req.flash(name, value) 设置这个对象下的字段和值，通过 req.flash(name) 获取这个对象下的值，同时删除这个字段。
+> 通过connect-flash中间件来实现，它是基于session实现的，它的原理很简单：设置初始值 req.session.flash={}，通过 req.flash(name, value) 设置这个对象下的字段和值，通过 req.flash(name) 获取这个对象下的值，同时删除这个字段。
 
 
 
@@ -46,6 +49,7 @@ session 中间件会在 req 上添加 session 对象，即 req.session 初始值
 
 
 #模版中存在的变量
+<pre>
 header.ejs    		blog.title  
 components:
 	nav.ejs       		blog.title  blog.description
@@ -54,8 +58,7 @@ components:
 	components.ejs 		comments(arr)   foreach(  comment {comment.author.avatar/_id/name, comment.created_at, comment.content})
 
 	post-content.ejs    post(帖子)以及相关的_id/created_at
-
-
+</pre>
 
 
 
