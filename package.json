@@ -4,10 +4,10 @@
   "description": "my first blog，I am conqueror",
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
-    "starts": "NODE_ENV=production pm2 start index.js --node-args='--harmony' --name 'blogs'",
+    "st": "NODE_ENV=production pm2 start index.js",
     "start": "node index.js",
-    "tes": "mocha test"
+    "mlab": "NODE_ENV=production node index.js",
+    "test": "mocha test"
   },
   "author": "nswbmw",
   "license": "MIT",
